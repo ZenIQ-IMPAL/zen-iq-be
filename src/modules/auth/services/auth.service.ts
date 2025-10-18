@@ -34,7 +34,7 @@ export class AuthService {
             .limit(1);
 
         if (existingUser) {
-            throw new AppError('Email sudah terdaftar', 409);
+            throw new AppError('Email already registered', 409);
         }
 
         const hashedPassword = await hashPassword(userData.password);
@@ -51,7 +51,7 @@ export class AuthService {
             .returning();
 
         if (!createdUser) {
-            throw new AppError('Gagal membuat akun', 500);
+            throw new AppError('Failed to create account', 500);
         }
 
         return {
@@ -67,13 +67,13 @@ export class AuthService {
             .limit(1);
 
         if (!user) {
-            throw new AppError('Email atau password salah', 401);
+            throw new AppError('Invalid email or password', 401);
         }
 
         const isPasswordValid = await comparePassword(req.password, user.password);
 
         if (!isPasswordValid) {
-            throw new AppError('Email atau password salah', 401);
+            throw new AppError('Invalid email or password', 401);
         }
 
         const token = generateToken({
