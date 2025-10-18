@@ -6,32 +6,49 @@ import { logger } from '../../shared/utils/logger';
 
 config();
 
-async function seedUsers() {
+export async function seedUsers() {
     try {
         logger.info('Starting user seeding...');
 
         const seedData = [
             {
-                fullName: 'Kingkin',
+                fullName: 'Admin User',
+                email: 'admin@zeniq.com',
+                password: await hashPassword('Admin123'),
+                role: 'admin',
+            },
+            {
+                fullName: 'Kingkin Fajar',
                 email: 'kingkin@example.com',
-                password: await hashPassword('password123'),
+                password: await hashPassword('Password123'),
+                role: 'student',
             },
             {
-                fullName: 'Albert',
+                fullName: 'Albert Einstein',
                 email: 'albert@example.com',
-                password: await hashPassword('password123'),
+                password: await hashPassword('Password123'),
+                role: 'student',
             },
             {
-                fullName: 'Bob',
+                fullName: 'Bob Johnson',
                 email: 'bob@example.com',
-                password: await hashPassword('password123'),
+                password: await hashPassword('Password123'),
+                role: 'student',
+            },
+            {
+                fullName: 'Sarah Williams',
+                email: 'sarah@example.com',
+                password: await hashPassword('Password123'),
+                role: 'student',
             },
         ];
 
+        const createdUsers = [];
         for (const userData of seedData) {
             try {
-                await db.insert(users).values(userData);
-                logger.success(`Created user: ${userData.email}`);
+                const [user] = await db.insert(users).values(userData).returning();
+                createdUsers.push(user);
+                logger.success(`Created user: ${userData.email} (${userData.role})`);
             } catch (error: any) {
                 if (error.constraint === 'users_email_unique') {
                     logger.warn(`User ${userData.email} already exists, skipping...`);
@@ -42,12 +59,16 @@ async function seedUsers() {
         }
 
         logger.success('User seeding completed!');
+        return createdUsers;
     } catch (error) {
         logger.error('Error seeding users:', error);
-        process.exit(1);
-    } finally {
-        process.exit(0);
+        throw error;
     }
 }
 
-seedUsers();
+// Allow running this file directly
+if (require.main === module) {
+    seedUsers()
+        .then(() => process.exit(0))
+        .catch(() => process.exit(1));
+}
