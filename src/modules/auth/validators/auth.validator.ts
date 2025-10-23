@@ -5,17 +5,17 @@ import { validateSchema } from '../../../shared/utils/validation';
 export const registerSchema = z.object({
     fullName: z
         .string()
-        .min(2, 'Nama lengkap minimal 2 karakter')
-        .max(100, 'Nama lengkap maksimal 100 karakter')
-        .regex(/^[a-zA-Z\s]+$/, 'Nama lengkap hanya boleh berisi huruf dan spasi'),
+        .min(2, 'Full name must be at least 2 characters')
+        .max(100, 'Full name must be at most 100 characters')
+        .regex(/^[a-zA-Z\s]+$/, 'Full name can only contain letters and spaces'),
     email: z
         .string()
-        .email('Format email tidak valid')
+        .email('Invalid email format')
         .toLowerCase(),
     password: z
         .string()
-        .min(8, 'Password minimal 8 karakter')
-        .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/, 'Password harus mengandung huruf kecil, huruf besar, dan angka'),
+        .min(8, 'Password must be at least 8 characters')
+        .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/, 'Password must contain lowercase, uppercase, and numbers'),
 });
 
 export type RegisterInput = z.infer<typeof registerSchema>;
@@ -32,9 +32,9 @@ export function validateRegister(req: Request, _res: Response, next: NextFunctio
 export const loginSchema = z.object({
     email: z
         .string()
-        .email('Format email tidak valid')
+        .email('Invalid email format')
         .toLowerCase(),
-    password: z.string().min(8, 'Password minimal 8 karakter'),
+    password: z.string().min(8, 'Password must be at least 8 characters'),
 });
 
 export type LoginInput = z.infer<typeof loginSchema>;

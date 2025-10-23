@@ -4,6 +4,8 @@ import cors from 'cors';
 import helmet from 'helmet';
 import swaggerUi from 'swagger-ui-express';
 import { authRoutes } from './modules/auth/routes/auth.routes';
+import { courseRoutes } from './modules/courses/routes/course.routes';
+import { recommendationRoutes } from './modules/recommendation/routes/recommendation.routes';
 import { requestLogger } from './shared/middleware/logger';
 import { errorHandler } from './shared/middleware/error-handler';
 import { camelToSnakeResponse, snakeToCamelRequest } from './shared/middleware/transform-keys';
@@ -38,11 +40,13 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs, {
 
 // API ROUTES
 app.use('/api/auth', authRoutes);
+app.use('/api/courses', courseRoutes);
+app.use('/api/recommendations', recommendationRoutes);
 
 app.use((_req, res, _next) => {
     res.status(404).json({
         success: false,
-        message: 'Data tidak ditemukan',
+        message: 'Resource not found',
     });
 });
 
