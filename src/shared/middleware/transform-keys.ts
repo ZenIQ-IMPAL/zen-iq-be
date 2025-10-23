@@ -10,9 +10,12 @@ function toSnakeCase(str: string): string {
 
 function transformObjectKeys(obj: any, transformer: (key: string) => string): any {
     const isArray = Array.isArray(obj);
-    const isObject = obj !== null && typeof obj === 'object' && !isArray;
+    const isDate = obj instanceof Date;
+    const isObject = obj !== null && typeof obj === 'object' && !isArray && !isDate;
 
     switch (true) {
+        case isDate:
+            return obj;
         case isArray:
             return obj.map((item: any) => transformObjectKeys(item, transformer));
         case isObject:

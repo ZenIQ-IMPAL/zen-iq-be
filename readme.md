@@ -132,3 +132,61 @@ API uses JWT (JSON Web Token) for authentication. Include token in Authorization
 ```http
 Authorization: Bearer your-jwt-token-here
 ```
+
+# RecommendationService Overview
+
+The `RecommendationService` provides course recommendations for a user based on their recent search history. It uses **TF-IDF vectorization** and **cosine similarity** to match the user’s past search queries with available courses, returning the top 3 most relevant courses. This is a **classic AI content-based recommendation system**, not a modern deep learning–based AI.
+
+---
+
+## Key Notes
+
+### 1. Libraries & Tools
+- `natural`: For TF-IDF computation (classic NLP).  
+- `compute-cosine-similarity`: Measures similarity between vectors.  
+- `drizzle-orm`: Database queries.  
+- `CourseService`: Fetches courses from the database.  
+
+### 2. Workflow
+1. Retrieve the last N search queries of a user.  
+2. Fetch all available courses.  
+3. Build a TF-IDF vector for each course (title + description).  
+4. Combine the user’s search queries into a single query vector.  
+5. Compute **cosine similarity** between the query vector and each course vector.  
+6. Sort courses by similarity score and return the top 3.  
+
+### 3. Implementation Details
+- **Vector padding**: Ensures query and course vectors are the same length.  
+- **Score computation**: `score = cosineSimilarity(queryVector, courseVector)`.  
+- Returns an array of `CourseWithInstructor` objects.  
+
+### 4. AI Nature
+- **It is AI**: Uses NLP and vector math to make recommendations.  
+- **Not modern AI**: No deep learning, embeddings, or LLMs; purely TF-IDF + cosine similarity.  
+
+### 5. Limitations
+- Only uses course title + description (ignores other behaviors like clicks).  
+- TF-IDF captures keyword overlap but not semantic meaning deeply.  
+- Not optimized for very large datasets (computes similarity for all courses).  
+
+### 6. Potential Upgrades
+- Use **embedding-based semantic search** (e.g., OpenAI embeddings) for better context understanding.  
+- Incorporate **user interactions** (enrollments, ratings) for collaborative filtering.  
+- Optimize for **large datasets** using approximate nearest neighbor search.  
+
+## Why it is AI
+
+### Natural Language Processing (NLP)
+- It processes text (course titles/descriptions and user searches) using **TF-IDF**, which is a standard NLP technique.  
+- TF-IDF converts text into numerical vectors so the system can “understand” similarity between texts.  
+
+### Reasoning / Decision Making
+- The system computes **cosine similarity** between the user query vector and course vectors.  
+- It ranks courses based on these scores. This is a form of **algorithmic reasoning**, which counts as AI.  
+
+### Automated Recommendations
+- Given user input, it automatically recommends courses — i.e., it makes decisions based on data.  
+
+## Why it’s NOT modern AI
+- No deep learning, no neural networks, no large language models (LLMs).  
+- Doesn’t understand meaning at a high semantic level; it only works on **keyword overlap**.
