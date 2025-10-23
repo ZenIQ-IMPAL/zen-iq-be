@@ -133,6 +133,13 @@ export const testimonials = pgTable('testimonials', {
     updatedAt: timestamp('updated_at').defaultNow().notNull(),
 });
 
+export const searchHistory = pgTable('search_history', {
+    id: uuid('id').primaryKey().defaultRandom(),
+    userId: uuid('user_id').notNull().references(() => users.id, { onDelete: 'cascade' }),
+    query: text('query').notNull(),
+    createdAt: timestamp('created_at').defaultNow().notNull(),
+});
+
 export type User = typeof users.$inferSelect;
 export type NewUser = typeof users.$inferInsert;
 
@@ -165,3 +172,6 @@ export type NewCourseProgress = typeof courseProgress.$inferInsert;
 
 export type Testimonial = typeof testimonials.$inferSelect;
 export type NewTestimonial = typeof testimonials.$inferInsert;
+
+export type SearchHistory = typeof searchHistory.$inferSelect;
+export type NewSearchHistory = typeof searchHistory.$inferInsert;
