@@ -12,11 +12,13 @@ export async function authenticateToken(
     next: NextFunction,
 ): Promise<void> {
     try {
-        const authHeader = req.headers.authorization;
-        const token = authHeader && authHeader.split(' ')[1];
+        // const authHeader = req.headers.authorization;
+        // const token = authHeader && authHeader.split(' ')[1];
+
+        const token = req.cookies.token;
 
         if (!token) {
-            throw new AppError('Token not found', 401);
+            return next();
         }
 
         const payload = verifyToken(token);

@@ -10,14 +10,24 @@ import { requestLogger } from './shared/middleware/logger';
 import { errorHandler } from './shared/middleware/error-handler';
 import { camelToSnakeResponse, snakeToCamelRequest } from './shared/middleware/transform-keys';
 import { specs } from './config/swagger';
+import cookieParser from 'cookie-parser';
+
 
 config();
 
 const app = express();
 
 app.use(helmet());
-app.use(cors());
+const allowedOrigin = "*";
+
+app.use(cors({
+  origin: allowedOrigin,
+  credentials: true,
+}));
+
+
 app.use(express.json({ limit: '10mb' }));
+app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(requestLogger);
