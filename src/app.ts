@@ -7,6 +7,7 @@ import { authRoutes } from './modules/auth/routes/auth.routes';
 import { courseRoutes } from './modules/courses/routes/course.routes';
 import { recommendationRoutes } from './modules/recommendation/routes/recommendation.routes';
 import { testimonialsRoutes } from './modules/testimonials/routes/testimonials.routes';
+import { subscriptionPlansRoutes } from './modules/subscription-plans/routes/subscription-plans.routes';
 import { requestLogger } from './shared/middleware/logger';
 import { errorHandler } from './shared/middleware/error-handler';
 import { camelToSnakeResponse, snakeToCamelRequest } from './shared/middleware/transform-keys';
@@ -54,6 +55,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/courses', courseRoutes);
 app.use('/api/recommendations', recommendationRoutes);
 app.use('/api/testimonials', testimonialsRoutes);
+app.use('/api/subscription-plans', subscriptionPlansRoutes);
 
 app.use((_req, res, _next) => {
     res.status(404).json({
