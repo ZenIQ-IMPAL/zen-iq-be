@@ -1,7 +1,7 @@
 import { config } from 'dotenv';
 import { db } from '../../config/database';
-import { instructors } from '../schema';
 import { logger } from '../../shared/utils/logger';
+import { instructors } from '../schema';
 
 config();
 
@@ -45,7 +45,10 @@ export async function seedInstructors() {
         const createdInstructors = [];
         for (const instructorData of instructorsData) {
             try {
-                const [instructor] = await db.insert(instructors).values(instructorData).returning();
+                const [instructor] = await db
+                    .insert(instructors)
+                    .values(instructorData)
+                    .returning();
                 createdInstructors.push(instructor);
                 logger.success(`Created instructor: ${instructorData.name}`);
             } catch (error: any) {

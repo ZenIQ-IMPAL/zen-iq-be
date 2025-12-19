@@ -1,4 +1,4 @@
-import { Course } from '../../../database/schema';
+import type { Course } from '../../../database/schema';
 
 export interface CourseFilters {
     category?: string;

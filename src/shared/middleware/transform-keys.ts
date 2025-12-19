@@ -1,11 +1,11 @@
-import { Request, Response, NextFunction } from 'express';
+import type { NextFunction, Request, Response } from 'express';
 
 function toCamelCase(str: string): string {
     return str.replace(/_([a-z])/g, (_, letter) => letter.toUpperCase());
 }
 
 function toSnakeCase(str: string): string {
-    return str.replace(/[A-Z]/g, letter => `_${letter.toLowerCase()}`);
+    return str.replace(/[A-Z]/g, (letter) => `_${letter.toLowerCase()}`);
 }
 
 function transformObjectKeys(obj: any, transformer: (key: string) => string): any {

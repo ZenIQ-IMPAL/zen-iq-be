@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import type { z } from 'zod';
 
 export class ValidationError extends Error {
     public statusCode: number;
@@ -13,11 +13,14 @@ export class ValidationError extends Error {
 }
 
 function formatZodErrors(issues: z.ZodIssue[]): Record<string, string> {
-    return issues.reduce((acc, issue) => {
-        const field = issue.path.join('.');
-        acc[field] = issue.message;
-        return acc;
-    }, {} as Record<string, string>);
+    return issues.reduce(
+        (acc, issue) => {
+            const field = issue.path.join('.');
+            acc[field] = issue.message;
+            return acc;
+        },
+        {} as Record<string, string>
+    );
 }
 
 export function validateSchema<T>(schema: z.ZodSchema<T>, data: unknown): T {
@@ -26,9 +29,10 @@ export function validateSchema<T>(schema: z.ZodSchema<T>, data: unknown): T {
     const isSuccess = result.success;
 
     switch (isSuccess) {
-        case false:
+        case false: {
             const validationErrors = formatZodErrors(result.error.issues);
             throw new ValidationError('Validation Error', validationErrors);
+        }
         case true:
             return result.data;
     }

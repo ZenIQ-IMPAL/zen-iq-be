@@ -1,15 +1,15 @@
-import { CourseWithInstructor } from '../../courses/types/course.types';
+import type { CourseWithInstructor } from '../../courses/types/course.types';
 
 export interface RecommendedCoursesResponse {
     courses: CourseWithInstructor[];
 }
 
 export interface RecommendationFilters {
-  userId: string;
-  lastNSearches?: number;
+    userId: string;
+    lastNSearches?: number;
 }
 
 export interface RecommendedCourse {
-  course: CourseWithInstructor;
-  score: number;
+    course: CourseWithInstructor;
+    score: number;
 }

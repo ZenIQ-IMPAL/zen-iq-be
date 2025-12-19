@@ -1,7 +1,7 @@
 import { config } from 'dotenv';
 import { db } from '../../config/database';
-import { subscriptionPlans } from '../schema';
 import { logger } from '../../shared/utils/logger';
+import { subscriptionPlans } from '../schema';
 
 config();
 
@@ -17,7 +17,7 @@ export async function seedSubscriptionPlans() {
                 features: JSON.stringify([
                     'Full access to all courses',
                     'Personalized learning paths',
-                    'Cancel anytime'
+                    'Cancel anytime',
                 ]),
             },
             {
@@ -27,7 +27,7 @@ export async function seedSubscriptionPlans() {
                 features: JSON.stringify([
                     'Everything in Monthly',
                     'Downloadable resources',
-                    'Early access to new features'
+                    'Early access to new features',
                 ]),
             },
             {
@@ -37,7 +37,7 @@ export async function seedSubscriptionPlans() {
                 features: JSON.stringify([
                     'All features unlocked',
                     '1-on-1 mentoring',
-                    'Premium certificate badges'
+                    'Premium certificate badges',
                 ]),
             },
         ];

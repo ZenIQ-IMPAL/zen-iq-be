@@ -13,7 +13,7 @@ export interface UserProfileWithTimestamp {
 }
 
 export interface RegisterResponse {
-    user: UserProfileWithTimestamp
+    user: UserProfileWithTimestamp;
 }
 
 export interface LoginResponse {

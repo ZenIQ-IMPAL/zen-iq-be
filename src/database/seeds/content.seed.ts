@@ -1,7 +1,7 @@
 import { config } from 'dotenv';
 import { db } from '../../config/database';
-import { contentModules, courseContent, courses } from '../schema';
 import { logger } from '../../shared/utils/logger';
+import { contentModules, courseContent, courses } from '../schema';
 
 config();
 
@@ -22,7 +22,8 @@ export async function seedContent() {
             {
                 courseId: firstCourse.id,
                 moduleName: 'Introduction to Web Development',
-                moduleDescription: 'Get started with the basics of web development, understanding how the web works.',
+                moduleDescription:
+                    'Get started with the basics of web development, understanding how the web works.',
                 orderSequence: 1,
             },
             {
@@ -71,7 +72,8 @@ export async function seedContent() {
                         contentTitle: 'Welcome to the Course',
                         contentDescription: 'Introduction video and course overview',
                         videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-                        textContent: 'Welcome to the Complete Web Development Bootcamp! In this course, you will learn...',
+                        textContent:
+                            'Welcome to the Complete Web Development Bootcamp! In this course, you will learn...',
                         orderSequence: 1,
                     },
                     {
@@ -89,9 +91,10 @@ export async function seedContent() {
                         contentTitle: 'Setting Up Your Development Environment',
                         contentDescription: 'Install necessary tools and editors',
                         videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-                        textContent: 'You will need to install Visual Studio Code, Node.js, and Git...',
+                        textContent:
+                            'You will need to install Visual Studio Code, Node.js, and Git...',
                         orderSequence: 3,
-                    }
+                    },
                 ],
                 2: [
                     {
@@ -118,36 +121,39 @@ export async function seedContent() {
                         contentTitle: 'Building Your First HTML Page',
                         contentDescription: 'Hands-on exercise creating an HTML page',
                         videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-                        textContent: 'Let\'s create a simple HTML page with a header, paragraph, and link...',
+                        textContent:
+                            "Let's create a simple HTML page with a header, paragraph, and link...",
                         orderSequence: 3,
-                    }
-                ]
+                    },
+                ],
             };
 
-            return contentMap[module.orderSequence] || [
-                {
-                    courseId,
-                    moduleId: module.id,
-                    contentTitle: `${module.moduleName} - Lesson 1`,
-                    contentDescription: 'Introduction to this module',
-                    videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-                    textContent: `This is the first lesson of ${module.moduleName}...`,
-                    orderSequence: 1,
-                },
-                {
-                    courseId,
-                    moduleId: module.id,
-                    contentTitle: `${module.moduleName} - Lesson 2`,
-                    contentDescription: 'Deep dive into the concepts',
-                    videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-                    textContent: `In this lesson, we will explore the core concepts...`,
-                    orderSequence: 2,
-                }
-            ];
+            return (
+                contentMap[module.orderSequence] || [
+                    {
+                        courseId,
+                        moduleId: module.id,
+                        contentTitle: `${module.moduleName} - Lesson 1`,
+                        contentDescription: 'Introduction to this module',
+                        videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+                        textContent: `This is the first lesson of ${module.moduleName}...`,
+                        orderSequence: 1,
+                    },
+                    {
+                        courseId,
+                        moduleId: module.id,
+                        contentTitle: `${module.moduleName} - Lesson 2`,
+                        contentDescription: 'Deep dive into the concepts',
+                        videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+                        textContent: `In this lesson, we will explore the core concepts...`,
+                        orderSequence: 2,
+                    },
+                ]
+            );
         };
 
         // Generate content data using the helper function
-        const contentData = createdModules.flatMap(module =>
+        const contentData = createdModules.flatMap((module) =>
             generateContentForModule(module!, firstCourse.id)
         );
 
