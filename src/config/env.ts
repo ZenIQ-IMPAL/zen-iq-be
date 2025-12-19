@@ -17,6 +17,7 @@ const envSchema = z.object({
         .string()
         .default('false')
         .transform((val) => val === 'true'),
+    FRONTEND_URL: z.string().url().default('http://localhost:3000'),
 });
 
 const envVars = {
@@ -28,6 +29,7 @@ const envVars = {
     MIDTRANS_SERVER_KEY: process.env.MIDTRANS_SERVER_KEY,
     MIDTRANS_CLIENT_KEY: process.env.MIDTRANS_CLIENT_KEY,
     MIDTRANS_IS_PRODUCTION: process.env.MIDTRANS_IS_PRODUCTION,
+    FRONTEND_URL: process.env.FRONTEND_URL,
 };
 
 const parsedEnv = envSchema.safeParse(envVars);
