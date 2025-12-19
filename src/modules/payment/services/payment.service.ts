@@ -54,9 +54,9 @@ export class PaymentService {
                 },
             ],
             callbacks: {
-                finish: `${process.env.FRONTEND_URL || 'http://localhost:3000'}/payment/success`,
-                error: `${process.env.FRONTEND_URL || 'http://localhost:3000'}/payment/error`,
-                pending: `${process.env.FRONTEND_URL || 'http://localhost:3000'}/payment/pending`,
+                finish: `${env.FRONTEND_URL}/payment/success`,
+                error: `${env.FRONTEND_URL}/payment/error`,
+                pending: `${env.FRONTEND_URL}/payment/pending`,
             },
         };
 
