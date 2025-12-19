@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import { CourseController } from '../controllers/course.controller';
-import { validateGetCourseList, validateGetCourseById } from '../validators/course.validator';
 import { authenticateToken } from '../../auth/middlewares/auth.middleware';
+import { CourseController } from '../controllers/course.controller';
+import { validateGetCourseById, validateGetCourseList } from '../validators/course.validator';
 
 const router = Router();
 const courseController = new CourseController();

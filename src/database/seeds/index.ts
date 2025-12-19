@@ -1,11 +1,11 @@
 import { config } from 'dotenv';
 import { logger } from '../../shared/utils/logger';
-import { seedUsers } from './users.seed';
+import { seedContent } from './content.seed';
+import { seedCourses } from './courses.seed';
 import { seedInstructors } from './instructors.seed';
 import { seedSubscriptionPlans } from './subscription-plans.seed';
-import { seedCourses } from './courses.seed';
-import { seedContent } from './content.seed';
 import { seedTestimonials } from './testimonials.seed';
+import { seedUsers } from './users.seed';
 
 config();
 

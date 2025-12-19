@@ -1,4 +1,14 @@
-import { pgTable, uuid, varchar, timestamp, text, boolean, integer, decimal, serial } from 'drizzle-orm/pg-core';
+import {
+    boolean,
+    decimal,
+    integer,
+    pgTable,
+    serial,
+    text,
+    timestamp,
+    uuid,
+    varchar,
+} from 'drizzle-orm/pg-core';
 
 // Users Table
 export const users = pgTable('users', {
@@ -28,7 +38,9 @@ export const courses = pgTable('courses', {
     title: varchar('title', { length: 255 }).notNull(),
     description: text('description'),
     thumbnailUrl: varchar('thumbnail_url', { length: 255 }),
-    instructorId: uuid('instructor_id').notNull().references(() => instructors.id, { onDelete: 'cascade' }),
+    instructorId: uuid('instructor_id')
+        .notNull()
+        .references(() => instructors.id, { onDelete: 'cascade' }),
     category: varchar('category', { length: 100 }),
     isFree: boolean('is_free').notNull().default(false),
     difficultyLevel: varchar('difficulty_level', { length: 50 }),
@@ -50,9 +62,15 @@ export const subscriptionPlans = pgTable('subscription_plans', {
 // Enrollments Table
 export const enrollments = pgTable('enrollments', {
     id: uuid('id').primaryKey().defaultRandom(),
-    userId: uuid('user_id').notNull().references(() => users.id, { onDelete: 'cascade' }),
-    courseId: uuid('course_id').notNull().references(() => courses.id, { onDelete: 'cascade' }),
-    subscriptionPlanId: uuid('subscription_plan_id').references(() => subscriptionPlans.id, { onDelete: 'set null' }),
+    userId: uuid('user_id')
+        .notNull()
+        .references(() => users.id, { onDelete: 'cascade' }),
+    courseId: uuid('course_id')
+        .notNull()
+        .references(() => courses.id, { onDelete: 'cascade' }),
+    subscriptionPlanId: uuid('subscription_plan_id').references(() => subscriptionPlans.id, {
+        onDelete: 'set null',
+    }),
     enrolledAt: timestamp('enrolled_at').defaultNow().notNull(),
     status: varchar('status', { length: 50 }).notNull().default('active'),
     createdAt: timestamp('created_at').defaultNow().notNull(),
@@ -73,13 +91,19 @@ export const paymentGateway = pgTable('payment_gateway', {
 // Payments Table
 export const payments = pgTable('payments', {
     id: uuid('id').primaryKey().defaultRandom(),
-    userId: uuid('user_id').notNull().references(() => users.id, { onDelete: 'cascade' }),
-    subscriptionPlanId: uuid('subscription_plan_id').references(() => subscriptionPlans.id, { onDelete: 'set null' }),
+    userId: uuid('user_id')
+        .notNull()
+        .references(() => users.id, { onDelete: 'cascade' }),
+    subscriptionPlanId: uuid('subscription_plan_id').references(() => subscriptionPlans.id, {
+        onDelete: 'set null',
+    }),
     orderId: varchar('order_id', { length: 255 }).unique().notNull(),
     amount: decimal('amount', { precision: 10, scale: 2 }).notNull(),
     paymentMethod: varchar('payment_method', { length: 50 }),
     paymentStatus: varchar('payment_status', { length: 50 }).notNull().default('pending'),
-    gatewayId: uuid('gateway_id').references(() => paymentGateway.id, { onDelete: 'set null' }),
+    gatewayId: uuid('gateway_id').references(() => paymentGateway.id, {
+        onDelete: 'set null',
+    }),
     createdAt: timestamp('created_at').defaultNow().notNull(),
     updatedAt: timestamp('updated_at').defaultNow().notNull(),
 });
@@ -87,7 +111,9 @@ export const payments = pgTable('payments', {
 // Content Modules Table
 export const contentModules = pgTable('content_modules', {
     id: uuid('id').primaryKey().defaultRandom(),
-    courseId: uuid('course_id').notNull().references(() => courses.id, { onDelete: 'cascade' }),
+    courseId: uuid('course_id')
+        .notNull()
+        .references(() => courses.id, { onDelete: 'cascade' }),
     moduleName: varchar('module_name', { length: 255 }).notNull(),
     moduleDescription: text('module_description'),
     orderSequence: integer('order_sequence').notNull(),
@@ -98,8 +124,12 @@ export const contentModules = pgTable('content_modules', {
 // Course Content Table
 export const courseContent = pgTable('course_content', {
     id: uuid('id').primaryKey().defaultRandom(),
-    courseId: uuid('course_id').notNull().references(() => courses.id, { onDelete: 'cascade' }),
-    moduleId: uuid('module_id').notNull().references(() => contentModules.id, { onDelete: 'cascade' }),
+    courseId: uuid('course_id')
+        .notNull()
+        .references(() => courses.id, { onDelete: 'cascade' }),
+    moduleId: uuid('module_id')
+        .notNull()
+        .references(() => contentModules.id, { onDelete: 'cascade' }),
     contentTitle: varchar('content_title', { length: 255 }).notNull(),
     contentDescription: text('content_description'),
     videoUrl: varchar('video_url', { length: 500 }),
@@ -112,9 +142,15 @@ export const courseContent = pgTable('course_content', {
 // Course Progress Table
 export const courseProgress = pgTable('course_progress', {
     id: uuid('id').primaryKey().defaultRandom(),
-    userId: uuid('user_id').notNull().references(() => users.id, { onDelete: 'cascade' }),
-    courseId: uuid('course_id').notNull().references(() => courses.id, { onDelete: 'cascade' }),
-    contentId: uuid('content_id').references(() => courseContent.id, { onDelete: 'cascade' }),
+    userId: uuid('user_id')
+        .notNull()
+        .references(() => users.id, { onDelete: 'cascade' }),
+    courseId: uuid('course_id')
+        .notNull()
+        .references(() => courses.id, { onDelete: 'cascade' }),
+    contentId: uuid('content_id').references(() => courseContent.id, {
+        onDelete: 'cascade',
+    }),
     isCompleted: boolean('is_completed').notNull().default(false),
     progressPercentage: integer('progress_percentage').notNull().default(0),
     lastAccessed: timestamp('last_accessed').defaultNow(),
@@ -122,10 +158,31 @@ export const courseProgress = pgTable('course_progress', {
     updatedAt: timestamp('updated_at').defaultNow().notNull(),
 });
 
+// User Subscriptions Table
+export const userSubscriptions = pgTable('user_subscriptions', {
+    id: uuid('id').primaryKey().defaultRandom(),
+    userId: uuid('user_id')
+        .notNull()
+        .references(() => users.id, { onDelete: 'cascade' }),
+    subscriptionPlanId: uuid('subscription_plan_id')
+        .notNull()
+        .references(() => subscriptionPlans.id, { onDelete: 'cascade' }),
+    paymentId: uuid('payment_id').references(() => payments.id, {
+        onDelete: 'set null',
+    }),
+    status: varchar('status', { length: 50 }).notNull().default('inactive'), // inactive, active, expired, cancelled
+    startDate: timestamp('start_date'),
+    endDate: timestamp('end_date'),
+    createdAt: timestamp('created_at').defaultNow().notNull(),
+    updatedAt: timestamp('updated_at').defaultNow().notNull(),
+});
+
 // Testimonials Table
 export const testimonials = pgTable('testimonials', {
     id: serial('id').primaryKey(),
-    userId: uuid('user_id').notNull().references(() => users.id, { onDelete: 'cascade' }),
+    userId: uuid('user_id')
+        .notNull()
+        .references(() => users.id, { onDelete: 'cascade' }),
     testimonialText: text('testimonial_text').notNull(),
     rating: integer('rating').notNull(),
     isFeatured: boolean('is_featured').notNull().default(false),
@@ -135,7 +192,9 @@ export const testimonials = pgTable('testimonials', {
 
 export const searchHistory = pgTable('search_history', {
     id: uuid('id').primaryKey().defaultRandom(),
-    userId: uuid('user_id').notNull().references(() => users.id, { onDelete: 'cascade' }),
+    userId: uuid('user_id')
+        .notNull()
+        .references(() => users.id, { onDelete: 'cascade' }),
     query: text('query').notNull(),
     createdAt: timestamp('created_at').defaultNow().notNull(),
 });
@@ -175,3 +234,6 @@ export type NewTestimonial = typeof testimonials.$inferInsert;
 
 export type SearchHistory = typeof searchHistory.$inferSelect;
 export type NewSearchHistory = typeof searchHistory.$inferInsert;
+
+export type UserSubscription = typeof userSubscriptions.$inferSelect;
+export type NewUserSubscription = typeof userSubscriptions.$inferInsert;

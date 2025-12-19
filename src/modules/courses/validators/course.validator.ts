@@ -1,5 +1,5 @@
+import type { NextFunction, Request, Response } from 'express';
 import { z } from 'zod';
-import { Request, Response, NextFunction } from 'express';
 import { validateSchema } from '../../../shared/utils/validation';
 
 export const getCourseListSchema = z.object({

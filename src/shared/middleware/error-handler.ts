@@ -1,6 +1,6 @@
-import { Request, Response, NextFunction } from 'express';
+import type { NextFunction, Request, Response } from 'express';
+import type { ApiResponse } from '../types';
 import { logger } from '../utils/logger';
-import { ApiResponse } from '../types';
 import { ValidationError } from '../utils/validation';
 
 export class AppError extends Error {
@@ -73,7 +73,7 @@ export function errorHandler(
     error: any,
     _req: Request,
     res: Response<ApiResponse>,
-    _next: NextFunction,
+    _next: NextFunction
 ): void {
     const { statusCode, message, errorDetails } = determineErrorType(error);
 

@@ -7,7 +7,8 @@ const options: swaggerJsdoc.Options = {
         info: {
             title: 'Zen IQ Backend API',
             version: '1.0.0',
-            description: 'Express.js REST API with TypeScript, Neon Postgres, Drizzle ORM, and JWT Authentication',
+            description:
+                'Express.js REST API with TypeScript, Neon Postgres, Drizzle ORM, and JWT Authentication',
         },
         servers: [
             {
@@ -73,10 +74,7 @@ const options: swaggerJsdoc.Options = {
             },
         },
     },
-    apis: [
-        './src/modules/auth/controllers/auth.controller.ts',
-        './src/app.ts',
-    ],
+    apis: ['./src/modules/auth/controllers/auth.controller.ts', './src/app.ts'],
 };
 
 export const specs = swaggerJsdoc(options);

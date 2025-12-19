@@ -1,8 +1,8 @@
 import { config } from 'dotenv';
 import { db } from '../../config/database';
-import { users } from '../schema';
-import { hashPassword } from '../../shared/utils/password';
 import { logger } from '../../shared/utils/logger';
+import { hashPassword } from '../../shared/utils/password';
+import { users } from '../schema';
 
 config();
 

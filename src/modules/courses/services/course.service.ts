@@ -1,8 +1,12 @@
+import { and, desc, eq, ilike, sql } from 'drizzle-orm';
 import { db } from '../../../config/database';
-import { courses, instructors, contentModules, courseContent } from '../../../database/schema';
-import { eq, and, ilike, sql, desc } from 'drizzle-orm';
-import { CourseFilters, CourseListResponse, CourseDetailResponse } from '../types/course.types';
+import { contentModules, courseContent, courses, instructors } from '../../../database/schema';
 import { AppError } from '../../../shared/middleware/error-handler';
+import type {
+    CourseDetailResponse,
+    CourseFilters,
+    CourseListResponse,
+} from '../types/course.types';
 
 export class CourseService {
     async getCourses(filters: CourseFilters): Promise<CourseListResponse> {
