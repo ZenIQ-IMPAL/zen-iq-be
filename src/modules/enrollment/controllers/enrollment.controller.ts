@@ -51,7 +51,7 @@ export class EnrollmentController {
     next: NextFunction
   ): Promise<void> => {
     try {
-      const userId = (req as any).user.id; // same pattern as auth
+      const userId = (req as any).user.id;
 
       const enrollments = await this.enrollmentService.getMyEnrollments(userId);
 

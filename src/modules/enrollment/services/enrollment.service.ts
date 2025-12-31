@@ -1,5 +1,5 @@
 import { db } from "../../../config/database";
-import { enrollments } from "../../../database/schema";
+import { enrollments, courses } from "../../../database/schema";
 import { eq, and } from "drizzle-orm";
 import { EnrollCourseInput, EnrollmentResponse } from "../type/enrollment.type";
 import { AppError } from "../../../shared/middleware/error-handler";
@@ -47,21 +47,32 @@ export class EnrollmentService {
 
   private mapEnrollment(row: any): EnrollmentResponse {
     return {
-      id: row.id,
-      userId: row.userId,
-      courseId: row.courseId,
-      subscriptionPlanId: row.subscriptionPlanId,
-      enrolledAt: row.enrolledAt.toISOString(),
+      id: row.enrollment_id,
+      courseId: row.course_id,
+      enrolledAt: row.enrolled_at,
       status: row.status,
-      createdAt: row.createdAt.toISOString(),
-      updatedAt: row.updatedAt.toISOString(),
+      createdAt: row.created_at,
+      updatedAt: row.updated_at,
+      title: row.title,
+      image: row.image,
     };
   }
 
   async getMyEnrollments(userId: string): Promise<EnrollmentResponse[]> {
+    // Join enrollments with courses to get title and thumbnail_url
     const rows = await db
-      .select()
+      .select({
+        enrollment_id: enrollments.id,
+        course_id: enrollments.courseId,
+        enrolled_at: enrollments.enrolledAt,
+        status: enrollments.status,
+        created_at: enrollments.createdAt,
+        updated_at: enrollments.updatedAt,
+        title: courses.title,
+        image: courses.thumbnailUrl,
+      })
       .from(enrollments)
+      .leftJoin(courses, eq(courses.id, enrollments.courseId))
       .where(eq(enrollments.userId, userId));
 
     return rows.map((row) => this.mapEnrollment(row));
