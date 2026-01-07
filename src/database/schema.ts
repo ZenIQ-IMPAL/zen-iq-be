@@ -137,6 +137,7 @@ export const courseContent = pgTable('course_content', {
     orderSequence: integer('order_sequence').notNull(),
     createdAt: timestamp('created_at').defaultNow().notNull(),
     updatedAt: timestamp('updated_at').defaultNow().notNull(),
+    isChecked: boolean('is_checked').default(false).notNull(),
 });
 
 // Course Progress Table
