@@ -124,6 +124,7 @@ export class CourseService {
                         contentTitle: courseContent.contentTitle,
                         contentDescription: courseContent.contentDescription,
                         videoUrl: courseContent.videoUrl,
+                        isChecked: courseContent.isChecked,
                         orderSequence: courseContent.orderSequence,
                     })
                     .from(courseContent)

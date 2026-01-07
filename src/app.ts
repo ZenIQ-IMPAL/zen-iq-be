@@ -7,12 +7,14 @@ import swaggerUi from 'swagger-ui-express';
 import { specs } from './config/swagger';
 import { authRoutes } from './modules/auth/routes/auth.routes';
 import { courseRoutes } from './modules/courses/routes/course.routes';
+import { learningProgressRoutes } from './modules/courses/routes/learning-progress.routes';
+import { enrollmentRoutes } from './modules/enrollment/routes/enrollment.routes';
+import { courseContentRoutes } from './modules/courses/routes/courseContent.routes';
 import { paymentRoutes } from './modules/payment/routes/payment.routes';
 import { recommendationRoutes } from './modules/recommendation/routes/recommendation.routes';
 import { subscriptionPlansRoutes } from './modules/subscription-plans/routes/subscription-plans.routes';
 import { testimonialsRoutes } from './modules/testimonials/routes/testimonials.routes';
 import { errorHandler } from './shared/middleware/error-handler';
-import { enrollmentRoutes } from './modules/enrollment/routes/enrollment.routes';
 import { requestLogger } from './shared/middleware/logger';
 import { camelToSnakeResponse, snakeToCamelRequest } from './shared/middleware/transform-keys';
 
@@ -87,11 +89,13 @@ app.use(
 // API ROUTES
 app.use('/api/auth', authRoutes);
 app.use('/api/courses', courseRoutes);
+app.use('/api/course-content', courseContentRoutes);
+app.use('/api/enrollments', enrollmentRoutes);
+app.use('/api/learning-progress', learningProgressRoutes);
 app.use('/api/recommendations', recommendationRoutes);
 app.use('/api/testimonials', testimonialsRoutes);
 app.use('/api/subscription-plans', subscriptionPlansRoutes);
 app.use('/api/payments', paymentRoutes);
-app.use('/api/enrollments', enrollmentRoutes);
 
 app.use((_req, res, _next) => {
     res.status(404).json({
